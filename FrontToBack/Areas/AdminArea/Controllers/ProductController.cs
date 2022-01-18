@@ -127,6 +127,13 @@ namespace FrontToBack.Areas.AdminArea.Controllers
             if (id == null) return NotFound();
             Product dbProduct = await _context.Products.FindAsync(id);
             if (dbProduct == null) return NotFound();
+            List<SelectListItem> categories = (from i in _context.Categories.ToList()
+                                               select new SelectListItem
+                                               {
+                                                   Text = i.Name,
+                                                   Value = i.Id.ToString()
+                                               }).ToList();
+            ViewBag.dgr = categories;
             return View(dbProduct);
         }
 
