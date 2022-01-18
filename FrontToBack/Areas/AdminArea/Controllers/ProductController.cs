@@ -1,5 +1,7 @@
 ﻿using FrontToBack.DAL;
+using FrontToBack.Extensions;
 using FrontToBack.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,9 +17,11 @@ namespace FrontToBack.Areas.AdminArea.Controllers
     public class ProductController : Controller
     {
         private readonly Context _context;
-        public ProductController(Context context)
+        private readonly IWebHostEnvironment _env;
+        public ProductController(Context context,IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
         public IActionResult Index()
         {
@@ -56,16 +60,37 @@ namespace FrontToBack.Areas.AdminArea.Controllers
                 ModelState.AddModelError("Name", "The product with this name already exists");
                 View();
             }
-            Product newProduct = new Product
+            
+                if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                {
+                    ModelState.AddModelError("Photo", "Do not empty");
+                }
+
+                if (!product.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "only image");
+                    return View();
+                }
+                if (product.Photo.IsCorrectSize(300))
+                {
+                    ModelState.AddModelError("Photo", "300den yuxari ola bilmez");
+                    return View();
+                }
+
+                
+
+                string fileName = await product.Photo.SaveImageAsync(_env.WebRootPath, "img");
+                
+                Product newProduct = new Product
             {
                 Category = product.Category,
                 Name = product.Name,
                 Price = product.Price,
-                ProductImage =product.ProductImage,
+                ImageUrl=fileName,
                 CategoryId = product.CategoryId
 
             };
-            await _context.AddAsync(newProduct);
+            await _context.Products.AddAsync(newProduct);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

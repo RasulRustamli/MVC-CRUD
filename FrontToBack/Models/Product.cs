@@ -20,7 +20,6 @@ namespace FrontToBack.Models
         
         [NotMapped]
         [Required]
-
-        public IFormFile ProductImage { get; set; }
+        public IFormFile Photo { get; set; }
     }
 }
