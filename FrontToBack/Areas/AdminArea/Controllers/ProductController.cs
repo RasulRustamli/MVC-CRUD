@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -93,6 +94,94 @@ namespace FrontToBack.Areas.AdminArea.Controllers
             await _context.Products.AddAsync(newProduct);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return NotFound();
+            Product dbProduct = await _context.Products.FindAsync(id);
+            if (dbProduct == null) return NotFound();
+            return View(dbProduct);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteProduct(int? id)
+        {
+            if (id == null) return NotFound();
+            Product dbProduct = await _context.Products.FindAsync(id);
+            if (dbProduct == null) return NotFound();
+
+            string path = Path.Combine(_env.WebRootPath, "img", dbProduct.ImageUrl);
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+            _context.Products.Remove(dbProduct);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Update(int? id)
+        {
+            if (id == null) return NotFound();
+            Product dbProduct = await _context.Products.FindAsync(id);
+            if (dbProduct == null) return NotFound();
+            return View(dbProduct);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(int? id, Product product)
+        {
+            if (id == null) return NotFound();
+
+            if (!ModelState.IsValid) return View();
+            bool isExist = _context.Products.Any(c => c.Name.ToLower() == product.Name.ToLower().Trim());
+
+            Product isExistProduct = _context.Products.FirstOrDefault(p => p.Id == product.Id);
+
+            if (isExist && !(isExistProduct.Name.ToLower() == product.Name.ToLower().Trim()))
+            {
+                ModelState.AddModelError("Name", "Bu adla product var");
+                return View();
+            };
+
+
+
+            if (product.Photo != null)
+            {
+                if (ModelState["Photo"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                {
+                    ModelState.AddModelError("Photo", "Do not empty");
+                }
+
+                if (!product.Photo.IsImage())
+                {
+                    ModelState.AddModelError("Photo", "only image");
+                    return View();
+                }
+                if (product.Photo.IsCorrectSize(300))
+                {
+                    ModelState.AddModelError("Photo", "300den yuxari ola bilmez");
+                    return View();
+                }
+                Product dbproduct = await _context.Products.FindAsync(id);
+                string path = Path.Combine(_env.WebRootPath, "img", dbproduct.ImageUrl);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                string fileName = await product.Photo.SaveImageAsync(_env.WebRootPath, "img");
+
+                dbproduct.Category = product.Category;
+                dbproduct.Name = product.Name;
+                dbproduct.Price = product.Price;
+                dbproduct.ImageUrl = fileName;
+                dbproduct.CategoryId = product.CategoryId;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
         }
     }
 
