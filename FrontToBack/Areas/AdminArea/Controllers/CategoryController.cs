@@ -86,17 +86,25 @@ namespace FrontToBack.Areas.AdminArea.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> Remove(int? id) {
+
+        public async Task<IActionResult> Delete(int?id)
+        {
             if (id == null) return NotFound();
             Category dbCategory = await _context.Categories.FindAsync(id);
             if (dbCategory == null) return NotFound();
-            var model = dbCategory;
+            return View(dbCategory);
+        }
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeleteCategory(int?id)
+        {
+            if (id == null) return NotFound();
+            Category dbCategory = await _context.Categories.FindAsync(id);
+            if (dbCategory == null) return NotFound();
             _context.Categories.Remove(dbCategory);
             await _context.SaveChangesAsync();
-            return View(model);
+            return RedirectToAction("Index");
         }
-        
-       
-
     }
 }
