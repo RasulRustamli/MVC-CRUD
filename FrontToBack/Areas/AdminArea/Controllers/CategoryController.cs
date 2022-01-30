@@ -21,6 +21,7 @@ namespace FrontToBack.Areas.AdminArea.Controllers
             List<Category> categories = _context.Categories.ToList();
 
             return View(categories);
+
         }
         public async Task<IActionResult> Detail(int? id)
         {

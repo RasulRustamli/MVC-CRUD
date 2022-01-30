@@ -13,11 +13,14 @@ namespace FrontToBack.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Register()
@@ -49,6 +52,7 @@ namespace FrontToBack.Controllers
                 }
                 return View();
             }
+            await _userManager.AddToRoleAsync(user, "Member");
 
             await _signInManager.SignInAsync(user, true);
 
@@ -62,6 +66,11 @@ namespace FrontToBack.Controllers
 
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Error");
+            }
+
             return View();
         }
 
@@ -87,6 +96,12 @@ namespace FrontToBack.Controllers
                 return View();
             }
 
+            var roles = await _userManager.GetRolesAsync(dbUser);
+            if (roles[0] == "Admin")
+            {
+                return RedirectToAction("Index", "Dashboard", new { area = "AdminArea" });
+            }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -96,24 +111,22 @@ namespace FrontToBack.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task CreateRole()
+        {
+            if(!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
+            }
+
+            if(!await _roleManager.RoleExistsAsync("Member"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = "Member" });  
+            }
         }
     }
 }

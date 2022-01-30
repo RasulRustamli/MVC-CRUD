@@ -1,0 +1,29 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>@Model.Name</p>
+<p>@Model.Id</p>
+<ul>
+
+    @foreach (var item in Model.Comments)
+    {
+        <li>Username: @item.User.FullName</li>
+        @if (ViewBag.CurrentUserId == item.AppUserId)
+        {
+            <li> @item.Text <a class="btn btn-outline-danger" asp-controller="Comment" asp-action="Delete" asp-route-commentId="@item.Id">Delete</a></li>
+        }
+        else
+        {
+            <li> @item.Text </li>
+        }
+    }
+</ul>
+
+<a class="btn btn-outline-success" asp-route-id="@Model.Id" asp-controller="Comment" asp-action="Create">Create Comment</a>
+
+
+
+
+
