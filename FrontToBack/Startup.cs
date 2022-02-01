@@ -28,6 +28,7 @@ namespace FrontToBack
         {
             services.AddIdentity<AppUser, IdentityRole>(opt =>
             {
+
                 opt.Password.RequireLowercase = true;
                 opt.Password.RequiredLength = 8;
                 opt.Password.RequireNonAlphanumeric = true;
@@ -35,19 +36,15 @@ namespace FrontToBack
                 opt.User.RequireUniqueEmail = true;
 
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                opt.Lockout.MaxFailedAccessAttempts = 5;
-                opt.Lockout.AllowedForNewUsers = true;
+                opt.Lockout.MaxFailedAccessAttempts = 3;
+               // opt.Lockout.AllowedForNewUsers = true;
             }).AddEntityFrameworkStores<Context>().AddDefaultTokenProviders();
-
             services.AddControllersWithViews();
-            services.AddDbContext<Context>(opt =>
-            {
+            services.AddDbContext<Context>(opt=> {
+
                 opt.UseSqlServer(_config["ConnectionStrings:DefaultConnection"]);
-                //opt.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
-            });
-            services.AddSession(opt =>
-            {
-                opt.IdleTimeout = TimeSpan.FromMinutes(10);
+                opt.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
+
             });
         }
 
@@ -62,7 +59,6 @@ namespace FrontToBack
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapGet("/", async context =>
@@ -70,14 +66,15 @@ namespace FrontToBack
                 //    await context.Response.WriteAsync("Hello World!");
                 //});
                 endpoints.MapControllerRoute(
-                   "areas",
-                  "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+                "areas",
+               "{area:exists}/{controller=DashBoard}/{action=Index}/{id?}"
                  );
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=home}/{action=Index}/{id?}"
                     );
 
+                
             });
         }
     }

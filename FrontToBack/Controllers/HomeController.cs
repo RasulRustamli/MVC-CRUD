@@ -1,7 +1,7 @@
 ﻿using FrontToBack.DAL;
+using FrontToBack.HomeModels;
 using FrontToBack.Models;
-using FrontToBack.ViewModels;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,45 +14,33 @@ namespace FrontToBack.Controllers
     public class HomeController : Controller
     {
         private readonly Context _context;
-        public HomeController(Context context)
+        private readonly UserManager<AppUser> _userManager;
+
+        public HomeController(Context context,UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
-        public IActionResult Index()
+        
+        public async  Task<IActionResult> Index()
         {
-            HttpContext.Session.SetString("person", "lorem");
-            
-            //Response.Cookies.Append("basket", "product", new CookieOptions() { MaxAge = TimeSpan.FromMinutes(10)});
-
+            if (User.Identity.IsAuthenticated)
+            {
+                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+                ViewBag.UserName = user.FullName;
+            };
             List<Slider> sliders = _context.Sliders.ToList();
-            SliderDesc sliderDesc = _context.SliderDescs.FirstOrDefault();
+            SliderDesc slider = _context.SliderDescs.FirstOrDefault();
             List<Category> categories = _context.Categories.ToList();
-            About about = _context.Abouts.FirstOrDefault();
-            List<Expert> experts = _context.Experts.ToList();
-            List<Blogs> blogs = _context.Blogs.ToList();
-            List<BlogsSlider> blogslider = _context.BlogsSliders.ToList();
-            List<InstagramSlider> instagram = _context.InstagramSliders.ToList();
-
-
+            List<Product> products = _context.Products.ToList();
+            About_Video about_Videos = _context.About_Videos.FirstOrDefault();
             HomeVm homeVm = new HomeVm();
+            homeVm.Products = products;
             homeVm.Sliders = sliders;
-            homeVm.SliderDesc = sliderDesc;
+            homeVm.SliderDesc = slider;
             homeVm.Categories = categories;
-            homeVm.About = about;
-            homeVm.Experts = experts;
-            homeVm.Blogs = blogs;
-            homeVm.BlogsSliders = blogslider;
-            homeVm.InstagramSliders = instagram;
-
+            homeVm.About_Videos = about_Videos;
             return View(homeVm);
         }
-        public IActionResult GetSession()
-        {
-           string session= HttpContext.Session.GetString("person");
-          // string cookie= Request.Cookies["basket"];
-            return Content(session);
-        }
-
-    
     }
 }

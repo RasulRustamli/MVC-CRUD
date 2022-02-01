@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace FrontToBack.Models
 {
-    public class AppUser : IdentityUser
+    public class AppUser:IdentityUser
     {
-        [Required, StringLength(maximumLength: 50)]
+        [Required,StringLength(maximumLength:50)]
         public string FullName { get; set; }
-
-        public bool isActive { get; set; }
-        public List<Comment> Comments { get; set; }
-
+        public bool IsActive { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
 
 <head>
     <!-- Required meta tags -->
@@ -16,15 +15,17 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="~/admin/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="~/admin/images/favicon.png" />
+    <link rel="shortcut icon"  href="~/admin/images/favicon.png"/>
 </head>
+    
+
 <body>
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex justify-content-center">
                 <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
-                    <a class="navbar-brand brand-logo" href="index.html"><img src="~/admin/images/logo.svg" alt="logo" /></a>
+                    <a class="navbar-brand brand-logo" href="index.html"><img src="~/admin/~/admin/images/logo.svg" alt="logo" /></a>
                     <a class="navbar-brand brand-logo-mini" href="index.html"><img src="~/admin/images/logo-mini.svg" alt="logo" /></a>
                     <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                         <span class="mdi mdi-sort-variant"></span>
@@ -169,39 +170,40 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a asp-area="AdminArea" asp-controller="Dashboard" asp-action="Index" class="nav-link">
+                        <a asp-controller="Dashboard" asp-area="AdminArea" asp-action="Index" class="nav-link" data-toggle="collapse" aria-expanded="false" aria-controls="ui-basic">
+                            DashBoard
                         </a>
 
+                    </li>
                     <li class="nav-item">
-
-                    <li class="nav-item">
-                        <a asp-area="AdminArea" asp-controller="Category" asp-action="Index" class="nav-link">
+                        <a asp-controller="Category" asp-area="AdminArea" asp-action="Index" class="nav-link">
                             Categories
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-area="AdminArea" asp-controller="Slider" asp-action="Index" class="nav-link">
-                            Sliders
-                        </a>
 
                     </li>
+
                     <li class="nav-item">
                         <a asp-controller="Product" asp-action="Index" class="nav-link">
                             Products
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a asp-controller="User" asp-action="Index" class="nav-link">
                             Users
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a asp-controller="Role" asp-action="Index" class="nav-link">
                             Roles
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a asp-controller="Slider" asp-area="AdminArea" asp-action="Index" class="nav-link">
+                            Slider
+                        </a>
+
+                    </li>
+
 
                     <li class="nav-item">
                         <a class="nav-link" href="pages/tables/basic-table.html">
@@ -278,11 +280,10 @@
     <script src="~/admin/js/data-table.js"></script>
     <script src="~/admin/js/jquery.dataTables.js"></script>
     <script src="~/admin/js/dataTables.bootstrap4.js"></script>
-    @RenderSection("Scripts", false)
-    @RenderSection("Css", false)
+    @RenderSection("Scripts", false);
+    @RenderSection("Css", false);
     <!-- End custom js for this page-->
 </body>
 
-</html>
 
 

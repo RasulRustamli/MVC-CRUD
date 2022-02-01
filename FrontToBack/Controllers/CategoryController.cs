@@ -12,6 +12,7 @@ namespace FrontToBack.Controllers
     public class CategoryController : Controller
     {
         private readonly Context _context;
+
         public CategoryController(Context context)
         {
             _context = context;
@@ -19,9 +20,8 @@ namespace FrontToBack.Controllers
         public IActionResult Index()
         {
             IEnumerable<Category> categories = _context.Categories
-                .Include(p => p.Products)
+                .Include(c => c.Products)
                 .ToList();
-
             return View(categories);
         }
     }

@@ -8,12 +8,20 @@ using System.Threading.Tasks;
 namespace FrontToBack.Areas.AdminArea.Controllers
 {
     [Area("AdminArea")]
-    [Authorize(Roles ="Admin")]
-    public class DashboardController : Controller
+    [Authorize]
+    public class DashBoardController : Controller
     {
+        
         public IActionResult Index()
         {
             return View();
         }
+        [AllowAnonymous]
+        public IActionResult About()
+        {
+            return Content("about");
+        }
+
+      
     }
 }

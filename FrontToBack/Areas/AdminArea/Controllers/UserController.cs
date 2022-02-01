@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FrontToBack.Areas.AdminArea.Controllers
 {
-    [Area("AdminArea")]
+   [Area("AdminArea")]
     public class UserController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -18,64 +18,101 @@ namespace FrontToBack.Areas.AdminArea.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly Context _context;
 
-        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            RoleManager<IdentityRole> roleManager, Context context)
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager,Context context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _context = context;
         }
-
         public IActionResult Index(string name)
         {
-            var users = name == null ? _userManager.Users.ToList() :
+
+            var users = name == null ? _userManager.Users.ToList() : 
                  _userManager.Users.Where(u => u.FullName.ToLower().Contains(name.ToLower())).ToList();
 
-            //List<UserReturnVM> userReturnVm = new List<UserReturnVM>();
 
-            //foreach (var user in users)
+
+
+
+
+            //var users = _userManager.Users.ToList();
+            //List<UserReturnVM> userReturnVM = new List<UserReturnVM>();
+
+            //foreach (var item in users)
             //{
             //    UserReturnVM userReturn = new UserReturnVM();
-            //    userReturn.FullName = user.FullName;
-            //    userReturn.UserName = user.UserName;
-            //    userReturn.Email = user.Email;
-            //    userReturnVm.Add(userReturn);
-            //}
+            //    userReturn.Id = item.Id;
+            //    userReturn.FullName = item.FullName;
+            //    userReturn.UserName = item.UserName;
+            //    userReturn.Email = item.Email;
+            //    //userReturn.Role = (await _userManager.GetRolesAsync(item))[0];
+            //    userReturnVM.Add(userReturn);
 
+            //}
             return View(users);
         }
-
         public async Task<IActionResult> Detail(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            UserRoleVM userRoleVm = new UserRoleVM();
-            userRoleVm.AppUser = user;
-            userRoleVm.Roles = await _userManager.GetRolesAsync(user);
+            UserRoleVM userRoleVM = new UserRoleVM();
+            userRoleVM.AppUser = user;
+            userRoleVM.Roles = await _userManager.GetRolesAsync(user);
 
-            return View(userRoleVm);
+            return View(userRoleVM);
+        }
+        public IActionResult Register()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Register(RegisterVM registerVM)
+        {
+            if (!ModelState.IsValid) return View();
+            AppUser user = new AppUser
+            {
+                FullName = registerVM.FullName,
+                UserName = registerVM.UserName,
+                Email = registerVM.Email
+
+            };
+            IdentityResult identity = await _userManager.CreateAsync(user, registerVM.Password);
+            if (!identity.Succeeded)
+            {
+                foreach (var item in identity.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+                return View();
+            }
+            await _userManager.AddToRoleAsync(user, "Member");
+            await _signInManager.SignInAsync(user, true);
+
+            return RedirectToAction("Index", "User");
         }
 
         public async Task<IActionResult> IsActive(string id)
         {
-            AppUser user = await _userManager.FindByIdAsync(id);
+            AppUser appUser = await _userManager.FindByIdAsync(id);
 
-            if (user == null)
+            if (appUser == null)
             {
                 return NotFound();
             }
-            if (user.isActive)
+            if (appUser.IsActive) 
             {
-                user.isActive = false;
+                appUser.IsActive = false;
+
             }
             else
             {
-                user.isActive = true;
+                appUser.IsActive = true;
             }
-
-            await _context.SaveChangesAsync();
-
             return RedirectToAction("Index");
+
         }
+
     }
 }

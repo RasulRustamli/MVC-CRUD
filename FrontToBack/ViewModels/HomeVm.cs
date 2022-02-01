@@ -4,21 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FrontToBack.ViewModels
+namespace FrontToBack.HomeModels
 {
     public class HomeVm
     {
-        public IEnumerable<Slider> Sliders { get; set; }
+        public List<Slider> Sliders { get; set; }
+        public List<Product> Products { get; set; }
         public SliderDesc SliderDesc { get; set; }
         public IEnumerable<Category> Categories { get; set; }
-        public About About { get; set; }
-        public IEnumerable<Expert> Experts { get; set; }
-        public IEnumerable<Blogs> Blogs { get; set; }
-        public IEnumerable<BlogsSlider> BlogsSliders { get; set; }
-        public IEnumerable<InstagramSlider> InstagramSliders { get; set; }
-
-
-
-
+        public About_Video About_Videos { get; set; }
     }
 }

@@ -12,18 +12,20 @@ namespace FrontToBack.ViewComponents
     public class ProductsViewComponent:ViewComponent
     {
         private readonly Context _context;
+
         public ProductsViewComponent(Context context)
         {
             _context = context;
         }
+        public async Task <IViewComponentResult> InvokeAsync() {
 
-        public async Task<IViewComponentResult> InvokeAsync(int take)
-        {
             List<Product> products = _context.Products
                 .Include(p => p.Category)
-                .Take(take)
+                .Take(8)
                 .ToList();
+
             return View(await Task.FromResult(products));
+           
         }
     }
 }

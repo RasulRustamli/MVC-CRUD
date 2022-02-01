@@ -1,8 +1,9 @@
-﻿@model Product
-
+﻿
+@model Product
 @{
     ViewData["Title"] = "Create";
 }
+
 
 <div class="container">
     <div class="row">
@@ -10,29 +11,38 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Default form</h4>
-                    <p class="card-description"> Create Product Form </p>
-                    <form class="forms-sample" method="post">
-           
+                    <p class="card-description">
+                        Create Category Form
+                    </p>
+                    <div>
+                        <label>Choose a category:</label>
+                        @Html.DropDownListFor(c => c.CategoryId, (List<SelectListItem>)ViewBag.Category, new { @class = "form-control" })
+                    </div>
+                    <form class="forms-sample" method="Post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label asp-for="ProductPhoto"></label>
+                            <input asp-for="ProductPhoto" class="form-control" accept="image/*" placeholder="Name">
+                            <span asp-validation-for="ProductPhoto" style="color:red;"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Name"></label>
+                            <input asp-for="Name" class="form-control" placeholder="Name">
+                            <span asp-validation-for="Name" style="color:red;"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Price"></label>
+                            <input asp-for="Price" class="form-control"/>
+                            <span asp-validation-for="Price" style="color:red;"></span>
+                        </div>
                         <div>
-                            <label>Choose a category:</label>
-                            @Html.DropDownListFor(c => c.CategoryId, (List<SelectListItem>)ViewBag.dgr, new { @class = "form-control" })
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="@Model.Name"></label>
-                            <input asp-for="@Model.Name" class="form-control" placeholder="Name">
-                            <span class="text-danger" asp-validation-for="@Model.Name"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="@Model.Price"></label>
-                            <input asp-for="@Model.Price" class="form-control" placeholder="Price">
-                            <span class="text-danger" asp-validation-for="@Model.Price"></span>
+
+
+
+                            
+
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="@Model.ImageUrl"></label>
-                            <input asp-for="@Model.ImageUrl" type="file" class="form-control" accept="image/*" placeholder="Image">
-                            <span class="text-danger" asp-validation-for="@Model.ImageUrl"></span>
-                        </div>
+
                         <button class="btn btn-light">Submit</button>
                     </form>
                 </div>
@@ -40,8 +50,9 @@
         </div>
     </div>
 </div>
-
 @section Scripts{
-    <partial name="_Validation"></partial>
+
+    <partial name="_Validation">
+
 }
 

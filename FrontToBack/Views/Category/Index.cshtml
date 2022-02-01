@@ -5,13 +5,15 @@
 
 @foreach (var category in Model)
 {
-    <p>@category.Name
+    <p>
+        @category.Name
+    </p>
     <ul>
         @foreach (var item in category.Products)
         {
-            <li>@item.Name</li>
+            @item.Name
         }
+
     </ul>
-    </p>
 }
 

@@ -1,19 +1,32 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20220106164912_addExpertTable.cs" />
-    <Compile Remove="Migrations\20220106164912_addExpertTable.Designer.cs" />
-    <Compile Remove="Migrations\20220106165225_addExpertTable.cs" />
-    <Compile Remove="Migrations\20220106165225_addExpertTable.Designer.cs" />
-    <Compile Remove="Migrations\20220106195011_BlogSlider.cs" />
-    <Compile Remove="Migrations\20220106195011_BlogSlider.Designer.cs" />
+    <Compile Remove="Migrations\20220106170344_addProductTable.cs" />
+    <Compile Remove="Migrations\20220106170344_addProductTable.Designer.cs" />
+    <Compile Remove="Migrations\20220106193300_addAbout-VideoTable.cs" />
+    <Compile Remove="Migrations\20220106193300_addAbout-VideoTable.Designer.cs" />
+    <Compile Remove="Migrations\20220130153623_AddCommentNewReallyy.cs" />
+    <Compile Remove="Migrations\20220130153623_AddCommentNewReallyy.Designer.cs" />
+    <Compile Remove="Migrations\20220130180022_AddFix.cs" />
+    <Compile Remove="Migrations\20220130180022_AddFix.Designer.cs" />
+    <Compile Remove="Migrations\20220130180337_AddFixx1.cs" />
+    <Compile Remove="Migrations\20220130180337_AddFixx1.Designer.cs" />
+    <Compile Remove="Migrations\20220130182603_AddFixEverything.cs" />
+    <Compile Remove="Migrations\20220130182603_AddFixEverything.Designer.cs" />
+    <Compile Remove="Migrations\20220130182657_AddFixEverything.cs" />
+    <Compile Remove="Migrations\20220130182657_AddFixEverything.Designer.cs" />
+    <Compile Remove="Migrations\20220131213101_Addfixr1.cs" />
+    <Compile Remove="Migrations\20220131213101_Addfixr1.Designer.cs" />
+    <Compile Remove="Migrations\20220131213204_addfixr.cs" />
+    <Compile Remove="Migrations\20220131213204_addfixr.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
@@ -35,19 +48,11 @@
 
   <ItemGroup>
     <None Include="wwwroot\admin\css\maps\style.css.map" />
-    <None Include="wwwroot\admin\fonts\.DS_Store" />
-    <None Include="wwwroot\admin\fonts\Roboto\.DS_Store" />
     <None Include="wwwroot\admin\fonts\Roboto\Roboto-Black.woff2" />
     <None Include="wwwroot\admin\fonts\Roboto\Roboto-Bold.woff2" />
     <None Include="wwwroot\admin\fonts\Roboto\Roboto-Light.woff2" />
     <None Include="wwwroot\admin\fonts\Roboto\Roboto-Medium.woff2" />
     <None Include="wwwroot\admin\fonts\Roboto\Roboto-Regular.woff2" />
-    <None Include="wwwroot\admin\images\.DS_Store" />
-    <None Include="wwwroot\admin\images\auth\.DS_Store" />
-    <None Include="wwwroot\admin\images\faces\.DS_Store" />
-    <None Include="wwwroot\admin\images\logo-mini.svg" />
-    <None Include="wwwroot\admin\images\logo.svg" />
-    <None Include="wwwroot\admin\js\.DS_Store" />
     <None Include="wwwroot\admin\js\chart.js" />
     <None Include="wwwroot\admin\js\Chart.min.js" />
     <None Include="wwwroot\admin\js\dashboard.js" />
@@ -60,7 +65,6 @@
     <None Include="wwwroot\admin\js\off-canvas.js" />
     <None Include="wwwroot\admin\js\tabs.js" />
     <None Include="wwwroot\admin\js\template.js" />
-    <None Include="wwwroot\admin\vendors\.DS_Store" />
     <None Include="wwwroot\admin\vendors\base\bootstrap.min.js.map" />
     <None Include="wwwroot\admin\vendors\base\vendor.bundle.base.js" />
     <None Include="wwwroot\admin\vendors\chart.js\Chart.min.js" />
@@ -69,6 +73,8 @@
     <None Include="wwwroot\admin\vendors\mdi\css\materialdesignicons.min.css.map" />
     <None Include="wwwroot\admin\vendors\mdi\fonts\materialdesignicons-webfont.svg" />
     <None Include="wwwroot\admin\vendors\mdi\fonts\materialdesignicons-webfont.woff2" />
+    <None Include="wwwroot\admin\images\logo-mini.svg" />
+    <None Include="wwwroot\admin\images\logo.svg" />
   </ItemGroup>
 
 </Project>

@@ -12,8 +12,6 @@ namespace FrontToBack.ViewModels
         public IList<IdentityRole> Roles { get; set; }
         public IList<string> UserRoles { get; set; }
         public string UserId { get; set; }
-        public AppUser User{ get; set; }
-
-
+        public AppUser User { get; set; }
     }
 }

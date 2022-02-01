@@ -9,10 +9,10 @@ namespace FrontToBack.Models
     public class Category
     {
         public int Id { get; set; }
-        [Required(ErrorMessage ="bosh qoyma")]
+        [Required(ErrorMessage ="Boş Qoyma")]
         public string Name { get; set; }
-        [MinLength(10,ErrorMessage ="100DEN AZ OLMALIDI")]
+        [MinLength(10,ErrorMessage ="Minumum 10 Söz Olmalıdır")]
         public string Description { get; set; }
         public ICollection<Product> Products { get; set; }
-    }
+    } 
 }

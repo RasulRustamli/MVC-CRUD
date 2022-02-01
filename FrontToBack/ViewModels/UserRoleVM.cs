@@ -9,7 +9,8 @@ namespace FrontToBack.ViewModels
 {
     public class UserRoleVM
     {
-        public AppUser AppUser { get; set; }
-        public IList<string> Roles { get; set; }
+        public AppUser AppUser;
+        public IList<string> Roles; 
+
     }
 }

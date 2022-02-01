@@ -1,0 +1,10 @@
+﻿@model Comment
+@{
+    Layout = null;
+}
+
+<form  method="post">
+    <input type="text" asp-for="Text" />
+    <button>Create</button>
+</form>
+<a asp-controller="ProductList" asp-action="Index" class="btn btn-info">Go Back</a>

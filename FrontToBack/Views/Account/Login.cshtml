@@ -1,8 +1,8 @@
-﻿@model LoginVM
+﻿@using FrontToBack.ViewModels
+@model LoginVM
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +31,7 @@
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                             <div class="brand-logo">
-                                <img src="~/img/logo.png" alt="logo">
+                                <img src="~/img/logo_white.png" alt="logo">
                             </div>
                             <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
                             <form class="pt-3" method="post">
@@ -43,15 +43,14 @@
                                     <input asp-for="Password" class="form-control form-control-lg" placeholder="Password"><br />
                                     <span asp-validation-for="Password" class="text text-danger"></span>
                                 </div>
-
-                                <div class="mb-2 mt-3">
-                                    <button type="submit" class="btn btn-block btn btn-inverse-primary auth-form-btn">
-                                        LogIn
+                                <div class="mt-2 mt-3">
+                                    <button type="submit" class="btn btn-block auth-form-btn btn-primary">
+                                        Login
                                     </button>
                                 </div>
-
                                 <div class="text-center mt-4 font-weight-light">
-                                    Don't have an account? <a asp-controller="Account" asp-action="Register" class="text-primary">Create</a>
+                                    Don't have an account? <a  style="text-decoration:none;" asp-controller="Account" asp-action="Register" class="text-primary">Create</a> <br />
+                                                           <a style="text-decoration:none;" asp-controller="Account" asp-action="ForgetPassword" class="text-primary">ForgetPassword</a>
                                 </div>
                             </form>
                         </div>
@@ -64,14 +63,15 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="~/admin/vendors/base/vendor.bundle.base.js"></script>
+    <script src="../../vendors/base/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- inject:js -->
-    <script src="~/admin/js/off-canvas.js"></script>
-    <script src="~/admin/js/hoverable-collapse.js"></script>
-    <script src="~/admin/js/template.js"></script>
+    <script src="../../js/off-canvas.js"></script>
+    <script src="../../js/hoverable-collapse.js"></script>
+    <script src="../../js/template.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+
     <!-- endinject -->
 </body>
 
